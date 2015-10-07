@@ -32,15 +32,12 @@ module.exports = {
                     }
 
 
-                    parseString(body, function (err, result) {
+                    xmlConverter.convertXML(body, function (err, result) {
                         if(err) {
                             console.error("[Error]: " + err);
                             cb(err);
                         } else {
-                            //console.log(body);
-                            //console.log(JSON.stringify(result, null, 4));
-                            //console.log(JSON.stringify(xmlConverter.process(result), null, 4));
-                            cb(null, xmlConverter.process(result));
+                            cb(null,result);
                         }
                     });
 
@@ -50,6 +47,7 @@ module.exports = {
         };
 
         var api = {
+            people: require("./lib/people")(apiClient),
             projects: require("./lib/projects")(apiClient),
             todoLists: require("./lib/todoLists")(apiClient)
         };

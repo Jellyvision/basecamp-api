@@ -10,6 +10,7 @@
   "latedef": true,
   "laxbreak": true,
   "laxcomma": true,
+  "mocha": true,
   "newcap": true,
   "noarg": true,
   "nomen": false,

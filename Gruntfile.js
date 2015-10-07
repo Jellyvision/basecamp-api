@@ -1,19 +1,15 @@
 module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     grunt.initConfig({
-        coffee:{
-            dev:{
-                files:{
-                    'src/*.js':'src/coffee/*.coffee',
-                }
+        jshint: {
+            options: {
+                '-W030': true
             },
-            test:{
-                files:{
-                    'test/test.*.js':'test/test.*.coffee'
-                }
-            }
+            jshintrc: true,
+            src: ['src/**/*.js', 'Gruntfile.js','test/**/*.js']
         },
         mochaTest: {
             test: {

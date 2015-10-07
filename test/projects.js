@@ -28,11 +28,11 @@ describe("projects", function () {
 
                 var project = projects[0];
                 expect(project['created-on']).to.exist;
-                expect(project['id']).to.exist;
+                expect(project.id).to.exist;
                 expect(project['last-changed-on']).to.exist;
-                expect(project['name']).to.exist;
-                expect(project['status']).to.exist;
-                expect(project['company']).to.exist;
+                expect(project.name).to.exist;
+                expect(project.status).to.exist;
+                expect(project.company).to.exist;
                 expect(project.company.name).to.deep.equal('Jellyvision');
 
                 done(err);

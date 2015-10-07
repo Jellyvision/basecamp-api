@@ -1,5 +1,4 @@
 var _ = require('lodash');
-var request = require('request');
 var parseString = require('xml2js').parseString;
 
 var convert = function (value, type) {
@@ -60,7 +59,7 @@ var processElement = function (element) {
     var type = getType(element);
     var value = "";
     if(type === "array") {
-        var valueKey = _(element).keys().reject(function(v) { return v === "$" }).first();
+        var valueKey = _(element).keys().reject(function(v) { return v === "$" ;}).first();
         value = element[valueKey];
     } else if (_.isObject(element)) {
         var elementKey = _.keys(element);
@@ -80,5 +79,16 @@ var processElement = function (element) {
 };
 
 module.exports = {
-    process: processElement
+    process: processElement,
+    convertXML: function(xml, cb) {
+        "use strict";
+        parseString(xml, function (err, result) {
+            if(err) {
+                console.error("[Error]: " + err);
+                cb(err);
+            } else {
+                cb(null, processElement(result));
+            }
+        });
+    }
 };
