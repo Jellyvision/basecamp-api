@@ -56,7 +56,8 @@ module.exports = {
             companies: require("./lib/companies")(apiClient),
             people: require("./lib/people")(apiClient),
             projects: require("./lib/projects")(apiClient),
-            todoLists: require("./lib/todoLists")(apiClient)
+            todoLists: require("./lib/todoLists")(apiClient),
+            todoListItems: require("./lib/todoLists")(apiClient)
         };
     },
     connectToApi: function(serverUrl, options) {
