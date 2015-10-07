@@ -21,7 +21,7 @@ module.exports = {
             }
             if(message.statusCode !== 200) {
                 console.warn("We got a " + message.statusCode + " response!");
-                return cb(message.statusCode);
+                return cb(new Error("HTTP Status: "+message.statusCode));
             }
 
             xmlConverter.convertXML(body, function (err, result) {
@@ -53,6 +53,7 @@ module.exports = {
     },
     getAPI: function(apiClient) {
         return {
+            companies: require("./lib/companies")(apiClient),
             people: require("./lib/people")(apiClient),
             projects: require("./lib/projects")(apiClient),
             todoLists: require("./lib/todoLists")(apiClient)
