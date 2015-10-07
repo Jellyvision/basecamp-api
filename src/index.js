@@ -4,7 +4,6 @@
 
 var _ = require('lodash');
 var request = require('request');
-var parseString = require('xml2js').parseString;
 var xmlConverter = require('./lib/xmlConverter');
 
 
@@ -12,9 +11,24 @@ var xmlConverter = require('./lib/xmlConverter');
 module.exports = {
     connect: function (serverUrl, options) {
         "use strict";
-        var client;
         options = _.defaults({headers: {"User-Agent": "Jellyvision Syncer"}}, options);
 
+
+        var basicResponseHandler = function (error, response, body, cb) {
+            if (error) {
+                console.error("[Error]: " + error);
+                return cb(error.request.options);
+            }
+
+            xmlConverter.convertXML(body, function (err, result) {
+                if (err) {
+                    console.error("[Error]: " + err);
+                    cb(err);
+                } else {
+                    cb(null, result);
+                }
+            });
+        };
 
         var apiClient = {
             get: function (endPoint, cb) {
@@ -25,36 +39,16 @@ module.exports = {
                         password: ""
                     }});
 
-                request.get(requestOptions, function(error, response, body) {
-                    if(error) {
-                        console.error("[Error]: " + error);
-                        return cb(error.request.options);
-                    }
 
-
-                    xmlConverter.convertXML(body, function (err, result) {
-                        if(err) {
-                            console.error("[Error]: " + err);
-                            cb(err);
-                        } else {
-                            cb(null,result);
-                        }
-                    });
-
-
-                });
+                request.get(requestOptions, _.partialRight(basicResponseHandler, cb));
             }
         };
 
-        var api = {
+        return {
             people: require("./lib/people")(apiClient),
             projects: require("./lib/projects")(apiClient),
             todoLists: require("./lib/todoLists")(apiClient)
         };
-
-
-        return api;
-
 
     }
 };

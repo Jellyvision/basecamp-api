@@ -1,6 +1,5 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
-var _ = require('lodash');
 
 var api = basecamp.connect('https://jellyvision5.basecamphq.com',{
     user: "drumney@jellyvision.com",
@@ -10,9 +9,9 @@ var api = basecamp.connect('https://jellyvision5.basecamphq.com',{
 describe("people", function () {
     "use strict";
     this.timeout(10000);
-    describe("#get", function() {
+    describe("#getAll", function() {
         it('should return all of the known people in basecamp', function (done) {
-            api.people.get(function(err, people) {
+            api.people.getAll(function(err, people) {
                 if(err) {
                     console.error("[ERROR]: " + err);
                 }
@@ -33,6 +32,19 @@ describe("people", function () {
                 expect(person['last-name']).to.exist;
                 expect(person['email-address']).to.exist;
                 expect(person['email-address']).to.exist;
+
+                done(err);
+            });
+        });
+    });
+    describe("#getPerson", function () {
+        it('should return a single person when one is requested', function (done) {
+            api.people.getPerson("1", function(err, person) {
+                if(err) {
+                    console.error("[ERROR]: " + err);
+                }
+                expect(person).to.be.ok;
+                expect(person).not.to.be.empty;
 
                 done(err);
             });
