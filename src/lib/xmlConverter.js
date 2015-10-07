@@ -22,9 +22,10 @@ var convert = function (value, type) {
         "boolean": function (value) {
             return value === "true";
         },
-        "undefined": function() {
-            return;
-        }
+        "identity" : function (value) {
+            return value;
+        },
+        "undefined": function() { }
     };
     if(!converters[type]) {
         throw new Error("No converter for type: " + type);
@@ -40,12 +41,37 @@ var getType = function(element) {
         } else if(element.$.nil) {
             return "undefined";
         } else {
-            return "string";
+            return "identity";
         }
     } else {
-        return "string";
+        return "identity";
     }
 };
+
+var equalsValuePredicate = function (val) {
+    "use strict";
+    return function(test) {
+        return val === test;
+    };
+};
+
+function isCompositeElement(element) {
+    "use strict";
+    var elementKey = _.keys(element);
+    return !(_.size(elementKey) <= 2 && (elementKey[0] === "_" || elementKey[0] === "$"));
+}
+
+function processObject(element) {
+    "use strict";
+    if (isCompositeElement(element)) {
+        return _.reduce(element, function (reducedElement, value, key) {
+            reducedElement[key] = processElement(value);
+            return reducedElement;
+        }, {});
+    } else {
+        return element._ || element;
+    }
+}
 
 var processElement = function (element) {
     "use strict";
@@ -58,20 +84,14 @@ var processElement = function (element) {
     }
     var type = getType(element);
     var value = "";
+
     if(type === "array") {
-        var valueKey = _(element).keys().reject(function(v) { return v === "$" ;}).first();
+        var valueKey = _(element).keys().reject(equalsValuePredicate("$")).first();
         value = element[valueKey];
     } else if (_.isObject(element)) {
-        var elementKey = _.keys(element);
-        if (!(_.size(elementKey) <= 2 && (elementKey[0] === "_" || elementKey[0] === "$"))) {
-            return _.reduce(element, function (reducedElement, value, key) {
-                reducedElement[key] = processElement(value);
-                return reducedElement;
-            }, {});
-        } else {
-            value = element._ || element;
-        }
-    }else if(_.isString(element)) {
+        value = processObject(element);
+    } else if(_.isString(element)) {
+        type = "string";
         value = element;
     }
     return convert(value, type);
