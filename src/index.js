@@ -9,19 +9,24 @@ var xmlConverter = require('./lib/xmlConverter');
 
 
 module.exports = {
-    connect: function (serverUrl, options) {
+    getClient: function (serverUrl, options) {
         "use strict";
         options = _.defaults({headers: {"User-Agent": "Jellyvision Syncer"}}, options);
 
 
-        var basicResponseHandler = function (error, response, body, cb) {
+        var basicResponseHandler = function (error, message, body, cb) {
             if (error) {
                 console.error("[Error]: " + error);
-                return cb(error.request.options);
+                return cb(error);
+            }
+            if(message.statusCode !== 200) {
+                console.warn("We got a " + message.statusCode + " response!");
+                return cb(message.statusCode);
             }
 
             xmlConverter.convertXML(body, function (err, result) {
                 if (err) {
+                    console.log(body);
                     console.error("[Error]: " + err);
                     cb(err);
                 } else {
@@ -30,25 +35,30 @@ module.exports = {
             });
         };
 
-        var apiClient = {
+        return {
             get: function (endPoint, cb) {
                 var requestOptions = _.defaults({}, options, {
                     url: serverUrl + endPoint,
                     auth: {
                         username: "drumney@jellyvision.com",
                         password: ""
-                    }});
+                    }
+                });
 
 
                 request.get(requestOptions, _.partialRight(basicResponseHandler, cb));
             }
         };
 
+    },
+    getAPI: function(apiClient) {
         return {
             people: require("./lib/people")(apiClient),
             projects: require("./lib/projects")(apiClient),
             todoLists: require("./lib/todoLists")(apiClient)
         };
-
+    },
+    connectToApi: function(serverUrl, options) {
+        return this.getAPI(this.getClient(serverUrl, options));
     }
 };

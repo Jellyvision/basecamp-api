@@ -1,8 +1,7 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
-var _ = require('lodash');
 
-var api = basecamp.connect('https://jellyvision5.basecamphq.com',{
+var api = basecamp.connectToApi('https://jellyvision5.basecamphq.com',{
     user: "drumney@jellyvision.com",
     password: ""
 });
@@ -12,7 +11,7 @@ describe("projects", function () {
     this.timeout(10000);
     describe("#get", function() {
         it('should return all of the known projects in basecamp', function (done) {
-            var projects = api.projects.get(function(err, projects) {
+            api.projects.get(function(err, projects) {
                 if(err) {
                     console.error("[ERROR]: " + err);
                 }
@@ -23,7 +22,7 @@ describe("projects", function () {
             });
         });
         it('should provide projects in a specific format', function (done) {
-            var projects = api.projects.get(function(err, projects) {
+            api.projects.get(function(err, projects) {
                 expect(projects).to.be.ok;
 
                 var project = projects[0];

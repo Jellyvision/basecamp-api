@@ -1,11 +1,12 @@
+var _ = require('lodash');
 
 module.exports = function (client) {
     "use strict";
-    var projects = {
+    var people = {
         client: client
     };
 
-    projects.getAll = function(cb) {
+    people.getAll = function(cb) {
         client.get("/people.xml", function(err, data) {
             if(err) {
                 cb(err);
@@ -15,7 +16,7 @@ module.exports = function (client) {
         });
     };
 
-    projects.getPerson = function(personId, cb) {
+    people.getPerson = function(personId, cb) {
         if(_.isUndefined(cb) || _.isUndefined(personId)) {
             throw new Error("getPerson needs a person ID");
         } else {
@@ -29,5 +30,5 @@ module.exports = function (client) {
         }
     };
 
-    return projects;
+    return people;
 };

@@ -8,8 +8,10 @@ module.exports = function(grunt) {
             options: {
                 '-W030': true
             },
-            jshintrc: true,
-            src: ['src/**/*.js', 'Gruntfile.js','test/**/*.js']
+            jshintrc: "./.jshintrc",
+            files: {
+                src: ['src/**/*.js', 'Gruntfile.js', 'test/**/*.js']
+            }
         },
         mochaTest: {
             test: {
@@ -29,6 +31,6 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('test', 'mochaTest:test');
+    grunt.registerTask('test', ['jshint', 'mochaTest:test']);
 
 };

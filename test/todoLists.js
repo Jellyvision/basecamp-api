@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
 
-var api = basecamp.connect('https://jellyvision5.basecamphq.com',{
+var api = basecamp.connectToApi('https://jellyvision5.basecamphq.com',{
     user: "drumney@jellyvision.com",
     password: ""
 });

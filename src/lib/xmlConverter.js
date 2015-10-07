@@ -28,7 +28,7 @@ var convert = function (value, type) {
         "undefined": function() { }
     };
     if(!converters[type]) {
-        throw new Error("No converter for type: " + type);
+        throw new Error("No converter for type: " + type +". Value is: " + value);
     }
     return converters[type](value);
 };
@@ -94,6 +94,7 @@ var processElement = function (element) {
         type = "string";
         value = element;
     }
+
     return convert(value, type);
 
 };
@@ -107,7 +108,11 @@ module.exports = {
                 console.error("[Error]: " + err);
                 cb(err);
             } else {
-                cb(null, processElement(result));
+                try {
+                    cb(null, processElement(result));
+                } catch (ex) {
+                    cb(ex);
+                }
             }
         });
     }

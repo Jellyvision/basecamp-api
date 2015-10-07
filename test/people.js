@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
 
-var api = basecamp.connect('https://jellyvision5.basecamphq.com',{
+var api = basecamp.connectToApi('https://jellyvision5.basecamphq.com',{
     user: "drumney@jellyvision.com",
     password: ""
 });
@@ -22,7 +22,7 @@ describe("people", function () {
             });
         });
         it('should provide people in a specific format', function (done) {
-            api.people.get(function(err, people) {
+            api.people.getAll(function(err, people) {
                 expect(people).to.be.ok;
 
                 var person = people[0];
@@ -39,14 +39,25 @@ describe("people", function () {
     });
     describe("#getPerson", function () {
         it('should return a single person when one is requested', function (done) {
-            api.people.getPerson("1", function(err, person) {
+            api.people.getPerson("10750604", function(err, person) {
                 if(err) {
                     console.error("[ERROR]: " + err);
                 }
                 expect(person).to.be.ok;
                 expect(person).not.to.be.empty;
+                expect(person.id).to.equal(10750604);
 
                 done(err);
+            });
+        });
+        it('should return a an error when an invalid ID is passed', function (done) {
+            api.people.getPerson("0", function(err, person) {
+
+                expect(person).to.be.undefined;
+                expect(err).to.be.ok;
+
+                done();
+
             });
         });
     });
