@@ -8,7 +8,7 @@ describe("todoLists", function () {
     "use strict";
     this.timeout(10000);
     describe("#getToDoListsForUser", function() {
-        it('should return all of the known todoLists for which a user is responsible', function (done) {
+        it.skip('should return all of the known todoLists for which a user is responsible', function (done) {
             api.todoLists.getToDoListsForUser(function(err, todoLists) {
                 if(err) {
                     return done(err);
@@ -19,7 +19,7 @@ describe("todoLists", function () {
                 done(err);
             });
         });
-        it('should provide todoLists in a specific format', function (done) {
+        it.skip('should provide todoLists in a specific format', function (done) {
             api.todoLists.getToDoListsForUser(function(err, todoLists) {
                 if(err) {
                     return done(err);
