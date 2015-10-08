@@ -4,7 +4,7 @@
 
 var _ = require('lodash');
 var request = require('request');
-var xmlConverter = require('./lib/xmlConverter');
+var basicResponseHandler = require('./lib/xmlResponseHandler');
 
 
 
@@ -14,26 +14,7 @@ module.exports = {
         options = _.defaults({headers: {"User-Agent": "Jellyvision Syncer"}}, options);
 
 
-        var basicResponseHandler = function (error, message, body, cb) {
-            if (error) {
-                console.error("[Error]: " + error);
-                return cb(error);
-            }
-            if(message.statusCode !== 200) {
-                console.warn("We got a " + message.statusCode + " response!");
-                return cb(new Error("HTTP Status: "+message.statusCode));
-            }
 
-            xmlConverter.convertXML(body, function (err, result) {
-                if (err) {
-                    console.log(body);
-                    console.error("[Error]: " + err);
-                    cb(err);
-                } else {
-                    cb(null, result);
-                }
-            });
-        };
 
         return {
             get: function (endPoint, cb) {

@@ -1,10 +1,8 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
 
-var api = basecamp.connectToApi('https://jellyvision5.basecamphq.com',{
-    user: "drumney@jellyvision.com",
-    password: ""
-});
+var APIClient = require('./TestAPIClient/index');
+var api = basecamp.getAPI(APIClient);
 
 describe("todoListItems", function () {
     "use strict";

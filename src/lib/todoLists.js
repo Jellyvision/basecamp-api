@@ -9,12 +9,21 @@ module.exports = function (client) {
         client: client
     };
 
-    todoLists.get = function(responsibleParty, cb) {
+    todoLists.getToDoListsForUser = function(responsibleParty, cb) {
         if(_.isUndefined(cb)) {
             cb = responsibleParty;
             responsibleParty = "";
         }
         client.get("/todo_lists.xml?responsible_party="+responsibleParty, function(err, data) {
+            if(err) {
+                cb(err);
+            } else {
+                cb(undefined,data['todo-lists']);
+            }
+        });
+    };
+    todoLists.getToDoListsThatAreNotAssigned = function(cb) {
+        client.get("/todo_lists.xml?responsible_party=", function(err, data) {
             if(err) {
                 cb(err);
             } else {

@@ -1,10 +1,8 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
 
-var api = basecamp.connectToApi('https://jellyvision5.basecamphq.com',{
-    user: "drumney@jellyvision.com",
-    password: ""
-});
+var APIClient = require('./TestAPIClient/index');
+var api = basecamp.getAPI(APIClient);
 
 describe("companies", function () {
     "use strict";
@@ -31,6 +29,7 @@ describe("companies", function () {
                 expect(companies).to.be.ok;
 
                 var company = companies[0];
+                expect(company).to.be.ok;
                 expect(company).to.have.property('id');
                 expect(company).to.have.property('name');
 
@@ -65,14 +64,14 @@ describe("companies", function () {
     });
     describe("#getCompaniesForProject", function () {
         it('should return companies associated with a project', function (done) {
-            api.companies.getCompaniesForProject("11413507", function(err, companies) {
+            api.companies.getCompaniesForProject("11413096", function(err, companies) {
                 if(err) {
                     console.error("[ERROR]: " + err);
                     return done(err);
                 }
                 expect(companies).to.be.ok;
                 expect(companies).not.to.be.empty;
-                expect(companies[0].id).to.equal(3381916);
+                expect(companies[0].id).to.equal(3610688);
 
                 done(err);
             });

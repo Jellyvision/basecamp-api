@@ -1,10 +1,8 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
 
-var api = basecamp.connectToApi('https://jellyvision5.basecamphq.com',{
-    user: "drumney@jellyvision.com",
-    password: ""
-});
+var APIClient = require('./TestAPIClient/index');
+var api = basecamp.getAPI(APIClient);
 
 describe("projects", function () {
     "use strict";
@@ -26,13 +24,13 @@ describe("projects", function () {
                 expect(projects).to.be.ok;
 
                 var project = projects[0];
-                expect(project['created-on']).to.exist;
-                expect(project.id).to.exist;
-                expect(project['last-changed-on']).to.exist;
-                expect(project.name).to.exist;
-                expect(project.status).to.exist;
-                expect(project.company).to.exist;
-                expect(project.company.name).to.deep.equal('Jellyvision');
+                expect(project).to.have.property('created-on');
+                expect(project).to.have.property('id');
+                expect(project).to.have.property('last-changed-on');
+                expect(project).to.have.property('name');
+                expect(project).to.have.property('status');
+                expect(project).to.have.property('company');
+                expect(project.company.name).to.deep.equal('Test Company');
 
                 done(err);
             });

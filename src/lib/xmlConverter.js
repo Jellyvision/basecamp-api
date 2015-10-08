@@ -17,7 +17,12 @@ var convert = function (value, type) {
             return parseInt(value, 10);
         },
         "array": function(value) {
-            return processElement(value);
+            var processedElement = processElement(value);
+            if(_.isArray(processedElement)) {
+                return processedElement;
+            } else {
+                return [processedElement];
+            }
         },
         "boolean": function (value) {
             return value === "true";

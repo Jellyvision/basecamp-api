@@ -1,17 +1,18 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
 
-var api = basecamp.connectToApi('https://jellyvision5.basecamphq.com',{
-    user: "drumney@jellyvision.com",
-    password: ""
-});
+var APIClient = require('./TestAPIClient/index');
+var api = basecamp.getAPI(APIClient);
 
 describe("todoLists", function () {
     "use strict";
     this.timeout(10000);
-    describe("#get", function() {
-        it('should return all of the known todoLists in basecamp', function (done) {
-            api.todoLists.get(function(err, todoLists) {
+    describe("#getToDoListsForUser", function() {
+        it('should return all of the known todoLists for which a user is responsible', function (done) {
+            api.todoLists.getToDoListsForUser(function(err, todoLists) {
+                if(err) {
+                    return done(err);
+                }
                 expect(todoLists).to.be.ok;
                 expect(todoLists).not.to.be.empty;
 
@@ -19,7 +20,7 @@ describe("todoLists", function () {
             });
         });
         it('should provide todoLists in a specific format', function (done) {
-            api.todoLists.get(function(err, todoLists) {
+            api.todoLists.getToDoListsForUser(function(err, todoLists) {
                 if(err) {
                     return done(err);
                 }

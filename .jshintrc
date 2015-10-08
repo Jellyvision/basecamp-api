@@ -24,5 +24,6 @@
     "module": false,
     "describe": false,
     "it": false
-  }
+  },
+  "-W030": true
 }

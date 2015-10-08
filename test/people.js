@@ -1,10 +1,8 @@
 var expect = require('chai').expect;
 var basecamp = require('../src');
 
-var api = basecamp.connectToApi('https://jellyvision5.basecamphq.com',{
-    user: "drumney@jellyvision.com",
-    password: ""
-});
+var APIClient = require('./TestAPIClient/index');
+var api = basecamp.getAPI(APIClient);
 
 describe("people", function () {
     "use strict";
@@ -26,12 +24,11 @@ describe("people", function () {
                 expect(people).to.be.ok;
 
                 var person = people[0];
-                expect(person.id).to.exist;
-                expect(person['company-id']).to.exist;
-                expect(person['first-name']).to.exist;
-                expect(person['last-name']).to.exist;
-                expect(person['email-address']).to.exist;
-                expect(person['email-address']).to.exist;
+                expect(person).to.have.property('id');
+                //expect(person).to.have.property('company-id');
+                expect(person).to.have.property('user-name');
+                //expect(person).to.have.property('last-name');
+                //expect(person).to.have.property('email-address');
 
                 done(err);
             });
@@ -39,13 +36,13 @@ describe("people", function () {
     });
     describe("#getPerson", function () {
         it('should return a single person when one is requested', function (done) {
-            api.people.getPerson("10750604", function(err, person) {
+            api.people.getPerson("8675309", function(err, person) {
                 if(err) {
                     console.error("[ERROR]: " + err);
                 }
                 expect(person).to.be.ok;
                 expect(person).not.to.be.empty;
-                expect(person.id).to.equal(10750604);
+                expect(person.id).to.equal(8675309);
 
                 done(err);
             });
