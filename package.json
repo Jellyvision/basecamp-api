@@ -25,7 +25,6 @@
   "homepage": "https://github.com/Jellyvision/basecamp-api#readme",
   "dependencies": {
     "lodash": "^3.10.1",
-    "node-rest-client": "^1.5.1",
     "request": "^2.64.0",
     "xml2js": "^0.4.12"
   },

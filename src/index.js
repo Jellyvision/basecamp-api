@@ -13,10 +13,16 @@ module.exports = {
         "use strict";
         options = _.defaults({headers: {"User-Agent": "Jellyvision Syncer"}}, options);
 
-
+        if(_.isUndefined(options.version)) {
+            options.version = "classic";
+        }
+        if(options.version !== "classic") {
+            throw new Error("Unsupported basecamp version selected: " + options.version);
+        }
 
 
         return {
+            version: options.version,
             get: function (endPoint, cb) {
                 var requestOptions = _.defaults({}, options, {
                     url: serverUrl + endPoint,
@@ -33,15 +39,17 @@ module.exports = {
 
     },
     getAPI: function(apiClient) {
+        "use strict";
         return {
-            companies: require("./lib/companies")(apiClient),
-            people: require("./lib/people")(apiClient),
-            projects: require("./lib/projects")(apiClient),
-            todoLists: require("./lib/todoLists")(apiClient),
-            todoListItems: require("./lib/todoLists")(apiClient)
+            companies: require("./lib/"+apiClient.version+"/companies")(apiClient),
+            people: require("./lib/"+apiClient.version+"/people")(apiClient),
+            projects: require("./lib/"+apiClient.version+"/projects")(apiClient),
+            todoLists: require("./lib/"+apiClient.version+"/todoLists")(apiClient),
+            todoListItems: require("./lib/"+apiClient.version+"/todoLists")(apiClient)
         };
     },
     connectToApi: function(serverUrl, options) {
+        "use strict";
         return this.getAPI(this.getClient(serverUrl, options));
     }
 };

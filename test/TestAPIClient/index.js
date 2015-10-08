@@ -12,6 +12,7 @@ var endpoints = _.reduce(fixtures, function(endpoints, fixture) {
 }, []);
 
 module.exports = {
+    version: "classic",
     get: function (url, cb) {
         "use strict";
         var response;

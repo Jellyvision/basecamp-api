@@ -3,6 +3,7 @@
  */
 
 module.exports = function (client) {
+    "use strict";
 
     var projects = {
         client: client
