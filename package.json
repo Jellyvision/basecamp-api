@@ -19,6 +19,9 @@
   "bugs": {
     "url": "https://github.com/Jellyvision/basecamp-api/issues"
   },
+  "scripts": {
+    "test": "grunt test"
+  },
   "homepage": "https://github.com/Jellyvision/basecamp-api#readme",
   "dependencies": {
     "lodash": "^3.10.1",
