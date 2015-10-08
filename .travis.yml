@@ -3,6 +3,8 @@ node_js:
 - '0.12'
 before_script:
 - npm install grunt-cli -g
+- git config --global user.email "dancrumb@gmail.com"
+- git config --global user.name "Travis-CI"
 deploy:
   provider: npm
   email: dancrumb@gmail.com
