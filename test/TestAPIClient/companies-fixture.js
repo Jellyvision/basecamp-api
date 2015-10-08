@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var FixtureBuilder = require('./FixtureBuilder');
 
 var data =
     {
@@ -13,26 +14,8 @@ var data =
     }
     ;
 
-module.exports = {
-    getEndpoints: function () {
-        "use strict";
-        return [
-            {
-                matcher: function(url) { return url === "/companies.xml"; },
-                handler: function (url) {
-                    return _.reduce(data, function (response, companyXml) {
-                            return response + companyXml;
+var fixtureBuilder = new FixtureBuilder("companies");
 
-                        }, "<companies type=\"array\">") + "</companies>";
-                }
-            },
-            {
-                matcher: function(url) { return url.match(/\/companies\/([^.]*).xml/); },
-                handler: function (url) {
-                    var found = this.matcher(url);
-                    return data[found[1]];
-                }
-            }
-        ];
-    }
-};
+module.exports = fixtureBuilder.setData(data).addBaseEndpoints().build();
+
+

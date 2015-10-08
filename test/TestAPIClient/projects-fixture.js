@@ -1,4 +1,6 @@
 var _ = require('lodash');
+var FixtureBuilder = require('./FixtureBuilder');
+
 
 var data =
     {
@@ -28,38 +30,26 @@ var data =
     }
     ;
 
-module.exports = {
-    getEndpoints: function () {
-        "use strict";
-        return [
-            {
-                matcher: function(url) { return url === "/projects.xml"; },
-                handler: function (url) {
-                    return _.reduce(data, function (response, companyXml) {
-                            return response + companyXml;
-                        }, "<projects type=\"array\">") + "</projects>";
-                }
-            },
-            {
-                matcher: function(url) { return url.match(/\/projects\/(\d*).xml$/); },
-                handler: function (url) {
-                    var found = this.matcher(url);
-                    return data[found[1]];
-                }
-            },
-            {
-                matcher: function(url) { return url.match(/\/projects\/(\d*)\/companies.xml$/); },
-                handler: function(url) {
-                    var found = this.matcher(url);
-                    var project = data[found[1]];
-                    if(!project) {
-                        return undefined;
-                    } else {
-                        var companyInfo = project.match(/(<company>.*<\/company>)/);
-                        return '<companies type="array">' + companyInfo[1] + '</companies>';
-                    }
-                }
+var fixtureBuilder = new FixtureBuilder("projects");
+
+module.exports = fixtureBuilder
+    .setData(data)
+    .addBaseEndpoints()
+    .addEndpoint({
+        matcher: function(url) {
+            "use strict";
+            return url.match(new RegExp("/"+this.name+"/(\\d*)/companies.xml$"));
+        },
+        handler: function(url) {
+            "use strict";
+            var found = this.matcher(url);
+            var project = this.data[found[1]];
+            if(!project) {
+                return undefined;
+            } else {
+                var companyInfo = project.match(new RegExp("(<company>.*</company>)"));
+                return '<companies type="array">' + companyInfo[1] + '</companies>';
             }
-        ];
-    }
-};
+        }
+    })
+    .build();

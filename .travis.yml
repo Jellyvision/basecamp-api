@@ -1,5 +1,14 @@
 language: node_js
 node_js:
- - "0.12"
+- '0.12'
 before_script:
-  - npm install grunt-cli -g
+- npm install grunt-cli -g
+deploy:
+  provider: npm
+  email: dancrumb@gmail.com
+  api_key:
+    secure: iThvI597BILT64Ogf4+fbe70ponG1nAmCtcvQLibXwMr6Nw9TwFQfbi66F2YodIDakPIeinDe7Cp1g6X26RBQx9v9KVjWzi98AV0hScGcQPBDIFCqV2xprToqnUPVTJmOiwDAHKLv0FSE3zCuyv64uzO16RcKADSLLvcE4fAEeLnEZcPND8xQDl2XNNksRMwaAecfbUH9j9Ni2iQB/j7w2IslmXzSRB0H1BArOuM/7bwwbf4G/zvREQHTVui+jeiKRNzFZ7uk4kzVSYfhaLtD/ApPNh9j5ROyW84ZxPgsNCU7MkJYQhMg2D2Ht6Cxk4c15ZMFjDspdDf42S787ivujfUJhHvrfWecSMBe+YFImWiIrCvG1ulclUf304s72eJjbhPixEW/Ot2Jp4XjnLTI8urasnX8HAerZrGavMYDRkK2C3d2k+Op5uUPulLb9kWtyhMTjIdNWlV4txXSIxPRmgBa8DkaJvgvvndaOmhdUeh4qMmtDmWNY/ARRFuDbLwFWQZPCoKUYCUuWUf9ALKWUciS0KI48hT4VTaGEhICQidAUKZY99KrOqvuu2IXvJkizWYy1kwojKcsSsxw4qdkkHkw58S87aOdJuUxHQWliwUs5c76bACdHXcFRxPU0LrzmfHQrPtf2GjaBDxhW8yX+BHKT+Rolh3E2mHtKwRFeM=
+  on:
+    branch: master
+before_deploy: npm version minor
+after_deploy: git push && git push --tags

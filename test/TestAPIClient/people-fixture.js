@@ -22,7 +22,6 @@ module.exports = {
                 handler: function (url) {
                     return _.reduce(data, function (response, companyXml) {
                             return response + companyXml;
-
                         }, "<people type=\"array\">") + "</people>";
                 }
             },
