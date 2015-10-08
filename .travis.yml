@@ -11,4 +11,10 @@ deploy:
   on:
     branch: master
 before_deploy: npm version minor
-after_deploy: git push && git push --tags
+after_deploy:
+  - git config credential.helper "store --file=.git/credentials"
+  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
+  - git push && git push --tags
+env:
+  global:
+    secure: a68KbAnxVl0fjvqur8pOLmnJia1PUO7GdrO9PrBDUG5USgqwfKHS83m6kJwv0ENB5VprCdSK0A3ZM8lhJrhv9cUCZEqApHYgKN47xSVCw9suaQ70hU13ehQdRElblGHmzZI1npe2iG7DThPgG1TZRbo36qwPG0i5fae+XIK7MFKZ4tCCh8gMKCG5suUL5Wqcwjo8P89XdAXMTqZlLEvdkYlLYldsvKu3tgQ/2zvpth0ZwPvlCGLHb2DR+556LW0EbITj3D+A4sDYUXWbdzYwzGerJsogRLvDwgHD+vYelvtITowGrxcLdBOrgiMUmibwgjaYHKkWpUXNdxU2p0Q6HS4VYdSUe1hKwr1/Mw4eF76LkkfVNFjKkt7PlKllSAo/mQNp5ZWNQm4xVXFyF2HrhoFE0YMODjGPTqDROwfXZajDAvcylPLRsCep+QppF1x6WvaCAEr4I5i1jhN1ahNNN77nnUaK42pHYbfqEdMyUUyIWLsAbuIf5LR8nnR36PHcRzTRpD5Yj/KNUmuu8xOD4UaAYFD5zsBRxllMsZjWprkyWs1gEscTr++Gnv/9KUWtf14BDDhpbfqW1sy6ILRAK6OZDIBfb6c4iFQNKAwsMxh/F5PZFvyLRT5ULWNqDtp5W7oGm+2vnDj+ky2ypefqB90KuQOX1gvY9whcKb1gVq8=
