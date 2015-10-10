@@ -9,7 +9,7 @@ describe("todoLists", function () {
     this.timeout(10000);
     describe("#getToDoListsForUser", function() {
         it.skip('should return all of the known todoLists for which a user is responsible', function (done) {
-            api.todoLists.getToDoListsForUser(function(err, todoLists) {
+            api.todoLists.getToDoListsForUser(33,function(err, todoLists) {
                 if(err) {
                     return done(err);
                 }
@@ -37,5 +37,27 @@ describe("todoLists", function () {
                 done();
             });
         });
+    });
+
+    describe("#getToDoListsThatAreNotAssigned", function () {
+
+    });
+    describe("#searchForList", function () {
+
+    });
+    describe("#getList", function () {
+
+    });
+    describe("#updateList", function () {
+
+    });
+    describe("#createList", function () {
+
+    });
+    describe("#destroyList", function () {
+
+    });
+    describe("#reorderList", function () {
+
     });
 });
