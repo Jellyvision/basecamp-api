@@ -1,6 +1,5 @@
 {
   "0": {
-    "completed-count": 0,
     "description": "",
     "id": 0,
     "milestone-id": 0,
@@ -8,8 +7,6 @@
     "position": 0,
     "private": false,
     "project-id": 0,
-    "tracked": false,
-    "uncompleted-count": 0,
-    "completed": false
+    "tracked": false
   }
 }
