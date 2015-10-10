@@ -19,7 +19,6 @@ module.exports = fixtureBuilder
                 return undefined;
             } else {
                 var companyInfo = project.company;
-                console.log("<companies type='array'>" + xmlify('company', companyInfo) + "</companies>");
                 return "<companies type='array'>" + xmlify('company', companyInfo) + "</companies>";
             }
         }

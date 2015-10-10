@@ -33,7 +33,11 @@ FixtureBuilder.prototype.addBaseEndpoints = function () {
         },
         handler: function (url) {
             var found = this.matcher(url);
-            return xmlify(this.singular, this.data[found[1]])   ;
+            if(this.data[found[1]]) {
+                return xmlify(this.singular, this.data[found[1]])   ;
+            } else {
+                return undefined;
+            }
         }
     });
     return this;
