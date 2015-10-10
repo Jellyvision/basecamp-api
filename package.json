@@ -1,10 +1,10 @@
 {
   "name": "basecamp-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Module providing access to the new Basecamp API",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
@@ -18,9 +18,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Jellyvision/basecamp-api/issues"
-  },
-  "scripts": {
-    "test": "grunt test"
   },
   "homepage": "https://github.com/Jellyvision/basecamp-api#readme",
   "dependencies": {
