@@ -1,7 +1,8 @@
 var fixtures =  [
     require('./companies-fixture'),
     require('./people-fixture'),
-    require('./projects-fixture')
+    require('./projects-fixture'),
+    require('./todoLists-fixture')
     ];
 var _ = require('lodash');
 var xmlResponseHandler = require('../../src/lib/xmlResponseHandler');

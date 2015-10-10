@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var parseString = require('xml2js').parseString;
 
+var processElement;
 var convert = function (value, type) {
     "use strict";
     var converters = {
@@ -78,7 +79,7 @@ function processObject(element) {
     }
 }
 
-var processElement = function (element) {
+processElement = function (element) {
     "use strict";
     if (_.isArray(element)) {
         if (_.size(element) > 1) {

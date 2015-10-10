@@ -1,8 +1,11 @@
 var _ = require('lodash');
+var xmlify = require('./xmlify');
 
-function FixtureBuilder(name) {
+
+function FixtureBuilder(singular, plural) {
     "use strict";
-    this.name = name;
+    this.singular = singular;
+    this.plural = plural;
     this.endpoints = [];
 }
 
@@ -16,21 +19,25 @@ FixtureBuilder.prototype.addBaseEndpoints = function () {
     "use strict";
     this.endpoints.push({
         matcher: function (url) {
-            return url === "/" + this.name + ".xml";
+            return url === "/" + this.plural + ".xml";
         },
         handler: function (url) {
             return _.reduce(this.data, function (response, companyXml) {
-                    return response + companyXml;
-                }, "<" + this.name + " type=\"array\">") + "</" + this.name + ">";
+                    return response + xmlify(this.singular, companyXml);
+                }, "<" + this.plural + " type=\"array\">", this) + "</" + this.plural + ">";
         }
     });
     this.endpoints.push({
         matcher: function (url) {
-            return url.match(new RegExp("/" + this.name + "/(\\d*).xml"));
+            return url.match(new RegExp("/" + this.plural + "/(\\d*).xml"));
         },
         handler: function (url) {
             var found = this.matcher(url);
-            return this.data[found[1]];
+            if(this.data[found[1]]) {
+                return xmlify(this.singular, this.data[found[1]])   ;
+            } else {
+                return undefined;
+            }
         }
     });
     return this;
@@ -53,7 +60,8 @@ FixtureBuilder.prototype.build = function () {
     _.forEach(endpoints, function (endpoint) {
         _.forEach(endpoint, function (method, methodName) {
             endpoint.data = this.data;
-            endpoint.name = this.name;
+            endpoint.plural = this.plural;
+            endpoint.singular = this.singular;
         }, this);
     }, this);
 
