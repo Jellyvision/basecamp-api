@@ -102,7 +102,7 @@ describe("todoLists", function () {
             });
         });
         it("throws an error on unknown filter values" , function (done) {
-            api.todoLists.getListsForProject(99999999, 'broken', function (err, todoLists) {
+            api.todoLists.getListsForProject(99999999, 'broken', function (err) {
                 expect(err).to.be.ok;
                 done();
             });
@@ -110,6 +110,34 @@ describe("todoLists", function () {
 
     });
     describe("#getList", function () {
+        it('returns a todo list when passed an ID', function (done) {
+            api.todoLists.getList(1, function (err, list) {
+                if(err) {
+                    return done(err);
+                }
+
+                expect(list).to.be.ok;
+                expect(list).to.have.property("description");
+                expect(list).to.have.property("id");
+                expect(list).to.have.property("milestone-id");
+                expect(list).to.have.property("name");
+                expect(list).to.have.property("position");
+                expect(list).to.have.property("private");
+                expect(list).to.have.property("project-id");
+                expect(list).to.have.property("tracked");
+                done();
+            });
+        });
+        it('returns an error when passed an unkown ID', function (done) {
+            api.todoLists.getList("99", function(err, list) {
+
+                expect(list).to.be.undefined;
+                expect(err).to.be.ok;
+
+                done();
+
+            });
+        });
 
     });
     describe("#updateList", function () {

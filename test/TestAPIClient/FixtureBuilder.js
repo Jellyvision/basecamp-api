@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var xmlify = require('./xmlify');
+var xmlConverter = require('../../src/lib/xmlConverter');
 
 
 function FixtureBuilder(singular, plural) {
@@ -15,7 +15,7 @@ FixtureBuilder.prototype.setData = function (data) {
     return this;
 };
 
-FixtureBuilder.prototype.addBaseEndpoints = function () {
+FixtureBuilder.prototype.addCollectionEndpoint = function () {
     "use strict";
     this.endpoints.push({
         matcher: function (url) {
@@ -23,24 +23,34 @@ FixtureBuilder.prototype.addBaseEndpoints = function () {
         },
         handler: function (url) {
             return _.reduce(this.data, function (response, companyXml) {
-                    return response + xmlify(this.singular, companyXml);
+                    return response + xmlConverter.toXML(this.singular, companyXml);
                 }, "<" + this.plural + " type=\"array\">", this) + "</" + this.plural + ">";
         }
     });
+    return this;
+};
+FixtureBuilder.prototype.addSingleItemEndpoint = function () {
+    "use strict";
     this.endpoints.push({
         matcher: function (url) {
             return url.match(new RegExp("/" + this.plural + "/(\\d*).xml"));
         },
         handler: function (url) {
             var found = this.matcher(url);
-            if(this.data[found[1]]) {
-                return xmlify(this.singular, this.data[found[1]])   ;
+            if (this.data[found[1]]) {
+                return xmlConverter.toXML(this.singular, this.data[found[1]]);
             } else {
                 return undefined;
             }
         }
     });
     return this;
+};
+
+FixtureBuilder.prototype.addBaseEndpoints = function () {
+    "use strict";
+    return this.addCollectionEndpoint()
+        .addSingleItemEndpoint();
 };
 
 FixtureBuilder.prototype.addEndpoint = function (endpoint) {
@@ -58,11 +68,10 @@ FixtureBuilder.prototype.build = function () {
         }
     };
     _.forEach(endpoints, function (endpoint) {
-        _.forEach(endpoint, function (method, methodName) {
-            endpoint.data = this.data;
-            endpoint.plural = this.plural;
-            endpoint.singular = this.singular;
-        }, this);
+        endpoint.data = this.data;
+        endpoint.plural = this.plural;
+        endpoint.singular = this.singular;
+
     }, this);
 
     return fixture;

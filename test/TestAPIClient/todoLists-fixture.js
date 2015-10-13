@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var FixtureBuilder = require('./FixtureBuilder');
-var xmlify = require('./xmlify');
 
+var xmlConverter = require('../../src/lib/xmlConverter');
 
 var todoLists = require('./fixtures/todoLists.json');
 var todoListItems = require('./fixtures/todoListItems.json');
@@ -14,16 +14,17 @@ _.forEach(todoLists, function (todoList) {
     "use strict";
     var clonedList = _.clone(todoList);
     data[todoList.id] = clonedList;
-    var itemsForThisList = _(todoListItems)
+    clonedList['todo-items'] = _(todoListItems)
         .filter(function (item) {
             return item['todo-list-id'] === todoList.id;
         }).value();
-    clonedList['todo-items'] = itemsForThisList;
+
     clonedList.completed = _.all(todoListItems, function(item) { return item.completed });
 });
 
 module.exports = fixtureBuilder
     .setData(data)
+    .addSingleItemEndpoint()
     .addEndpoint({
         matcher: function (url) {
             "use strict";
@@ -53,7 +54,7 @@ module.exports = fixtureBuilder
 
             if(_.size(response) > 0) {
                 return _.reduce(response, function (response, companyXml) {
-                        return response + xmlify(this.singular, companyXml);
+                        return response + xmlConverter.toXML(this.singular, companyXml);
                     }, "<" + this.plural + " type=\"array\">", this) + "</" + this.plural + ">";
             }
         }
@@ -73,7 +74,7 @@ module.exports = fixtureBuilder
 
             if(_.size(response) > 0) {
                 return _.reduce(response, function (response, companyXml) {
-                        return response + xmlify(this.singular, companyXml);
+                        return response + xmlConverter.toXML(this.singular, companyXml);
                     }, "<" + this.plural + " type=\"array\">", this) + "</" + this.plural + ">";
             }
         }

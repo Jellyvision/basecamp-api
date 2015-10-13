@@ -40,7 +40,7 @@ var convert = function (value, type) {
     return converters[type](value);
 };
 
-var getType = function(element) {
+var getTypeFromXML = function(element) {
     "use strict";
     if(element.$) {
         if(element.$.type) {
@@ -53,6 +53,19 @@ var getType = function(element) {
     } else {
         return "identity";
     }
+};
+
+var getTypeFromJS = function(value) {
+    "use strict";
+    return    /^\d{4}-\d{2}-\d{2}$/.test(value) ? "date"
+        : /^\d{4}-\d{2}-\d{2}/.test(value)      ? "datetime"
+        : _.isNumber(value)                     ? "integer"
+        : _.isBoolean(value)                    ? "boolean"
+        : _.isArray(value)                      ? "array"
+        : _.isString(value)                     ? undefined
+        : _.isObject(value)                     ? "object"
+        :                                         undefined;
+
 };
 
 var equalsValuePredicate = function (val) {
@@ -89,7 +102,7 @@ processElement = function (element) {
             element = element[0];
         }
     }
-    var type = getType(element);
+    var type = getTypeFromXML(element);
     var value = "";
 
     if(type === "array") {
@@ -108,7 +121,7 @@ processElement = function (element) {
 
 module.exports = {
     process: processElement,
-    convertXML: function(xml, cb) {
+    fromXML: function(xml, cb) {
         "use strict";
         parseString(xml, function (err, result) {
             if(err) {
@@ -122,5 +135,18 @@ module.exports = {
                 }
             }
         });
+    },
+    toXML: function _xmlify(name, data) {
+        "use strict";
+        return _.reduce(data, function(string, value, key) {
+                var type = getTypeFromJS(value);
+                return string + (type === "object" ? _xmlify(key, value) :
+                    "<"+key+ (type ? " type='"+type+"'" : "") +">" +
+                    value +
+                    "</"+key+">");
+
+
+            },"<"+name+">") + "</"+name+">";
+
     }
 };

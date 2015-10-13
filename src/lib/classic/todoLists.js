@@ -59,6 +59,19 @@ module.exports = function (client) {
             }
         });
     };
+    todoLists.getList = function (listId, cb) {
+        if(_.isUndefined(cb) || _.isUndefined(listId)) {
+            throw new Error("getList needs a list ID");
+        } else {
+            client.get("/todo-lists/"+listId+".xml", function(err, data) {
+                if(err) {
+                    cb(err);
+                } else {
+                    cb(undefined,data['todo-list']);
+                }
+            });
+        }
+    };
 
     return todoLists;
 };

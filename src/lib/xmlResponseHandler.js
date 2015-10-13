@@ -12,7 +12,7 @@ module.exports = function (error, message, body, cb) {
         return cb(new Error("HTTP Status: "+message.statusCode));
     }
 
-    xmlConverter.convertXML(body, function (err, result) {
+    xmlConverter.fromXML(body, function (err, result) {
         if (err) {
             winston.error(body);
             winston.error("[Error]: " + err);
