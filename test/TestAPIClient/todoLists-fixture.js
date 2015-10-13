@@ -22,8 +22,6 @@ _.forEach(todoLists, function (todoList) {
     clonedList.completed = _.all(todoListItems, function(item) { return item.completed });
 });
 
-console.log(JSON.stringify(data, null, 4));
-
 module.exports = fixtureBuilder
     .setData(data)
     .addEndpoint({
