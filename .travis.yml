@@ -6,7 +6,7 @@ before_script:
 - git config --global push.default matching
 - git config --global user.email "dancrumb@gmail.com"
 - git config --global user.name "Travis-CI"
-after_test:
+after_success:
 - istanbul cover node_modules/.bin/_mocha test
 - CODECLIMATE_REPO_TOKEN=a22b8402befd0dfc069eeaa0c41a4e2fa966ec72b194c3460788da18e5b91a25 codeclimate-test-reporter < coverage/lcov.info
 deploy:
