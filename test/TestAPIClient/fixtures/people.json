@@ -1,10 +1,18 @@
 {
-  "8675309": {
-    "id": 8675309,
-    "user-name": "Test company"
+  "1": {
+    "id": 1,
+    "user-name": "Charlie Brown"
   },
-  "1234567": {
-    "id": 1234567,
-    "user-name": "Jim Jimmson"
+  "2": {
+    "id": 2,
+    "user-name": "Linus Van Pelt"
+  },
+  "3": {
+    "id": 3,
+    "user-name": "Lucy Van Pelt"
+  },
+  "4": {
+    "id": 4,
+    "user-name": "Peppermint Patty"
   }
 }

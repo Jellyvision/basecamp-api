@@ -1,5 +1,5 @@
 var FixtureBuilder = require('./FixtureBuilder');
-var xmlify = require('./xmlify');
+var xmlConverter = require('../../src/lib/xmlConverter');
 
 var fixtureBuilder = new FixtureBuilder("project", "projects");
 
@@ -19,7 +19,7 @@ module.exports = fixtureBuilder
                 return undefined;
             } else {
                 var companyInfo = project.company;
-                return "<companies type='array'>" + xmlify('company', companyInfo) + "</companies>";
+                return "<companies type='array'>" + xmlConverter.toXML('company', companyInfo) + "</companies>";
             }
         }
     })

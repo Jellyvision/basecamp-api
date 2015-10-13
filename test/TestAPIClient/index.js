@@ -17,7 +17,7 @@ module.exports = {
     get: function (url, cb) {
         "use strict";
         var response;
-        console.log("GET: " + url);
+         //console.log("GET: " + url);
         var requestedEndpoint = _.find(endpoints, function(endpoint) {
             return endpoint.matcher(url);
         });
