@@ -13,7 +13,6 @@ describe("todoLists", function () {
                 if (err) {
                     return done(err);
                 }
-                console.log(todoLists);
                 expect(todoLists).to.be.ok;
                 expect(todoLists).not.to.be.empty;
 
@@ -45,7 +44,6 @@ describe("todoLists", function () {
                 if (err) {
                     return done(err);
                 }
-                console.log(todoLists);
 
                 expect(todoLists).to.be.ok;
                 expect(todoLists).not.to.be.empty;
@@ -56,8 +54,58 @@ describe("todoLists", function () {
     });
     describe("#getListsForProject", function () {
         it("returns all lists associated with a project" , function (done) {
-            api.todoLists.getListsForProject()
+            api.todoLists.getListsForProject(99999999, function (err, todoLists) {
+                if (err) {
+                    return done(err);
+                }
 
+                expect(todoLists).to.be.ok;
+                expect(todoLists).not.to.be.empty;
+                expect(todoLists).to.have.length(2);
+                done();
+            });
+        });
+        it("supports filter values: 'finished'" , function (done) {
+            api.todoLists.getListsForProject(99999999, 'finished', function (err, todoLists) {
+                if (err) {
+                    return done(err);
+                }
+
+                expect(todoLists).to.be.ok;
+                expect(todoLists).to.be.empty;
+                expect(todoLists).to.have.length(0);
+                done();
+            });
+        });
+        it("supports filter value: 'all'" , function (done) {
+            api.todoLists.getListsForProject(99999999, 'all', function (err, todoLists) {
+                if (err) {
+                    return done(err);
+                }
+
+                expect(todoLists).to.be.ok;
+                expect(todoLists).not.to.be.empty;
+                expect(todoLists).to.have.length(2);
+                done();
+            });
+        });
+        it("supports filter values: 'pending'" , function (done) {
+            api.todoLists.getListsForProject(99999999, 'pending', function (err, todoLists) {
+                if (err) {
+                    return done(err);
+                }
+
+                expect(todoLists).to.be.ok;
+                expect(todoLists).not.to.be.empty;
+                expect(todoLists).to.have.length(2);
+                done();
+            });
+        });
+        it("throws an error on unknown filter values" , function (done) {
+            api.todoLists.getListsForProject(99999999, 'broken', function (err, todoLists) {
+                expect(err).to.be.ok;
+                done();
+            });
         });
 
     });
