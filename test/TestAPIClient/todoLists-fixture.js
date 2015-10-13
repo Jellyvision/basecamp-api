@@ -12,12 +12,14 @@ var data = {};
 
 _.forEach(todoLists, function (todoList) {
     "use strict";
-    data[todoList.id] = _.clone(todoList);
+    var clonedList = _.clone(todoList);
+    data[todoList.id] = clonedList;
     var itemsForThisList = _(todoListItems)
         .filter(function (item) {
             return item['todo-list-id'] === todoList.id;
         }).value();
-    data[todoList.id]['todo-items'] = itemsForThisList;
+    clonedList['todo-items'] = itemsForThisList;
+    clonedList.completed = _.all(todoListItems, function(item) { return item.completed });
 });
 
 console.log(JSON.stringify(data, null, 4));
@@ -61,28 +63,14 @@ module.exports = fixtureBuilder
     .addEndpoint({
         matcher: function (url) {
             "use strict";
-            return url.match(new RegExp("/projects/(\\d*)/todo_lists.xml?filter=(.*)"));
+            return url.match(new RegExp("/projects/(\\d*)/todo_lists.xml(?:\\?filter=(.*)){0,1}"));
         },
         handler: function (url) {
             "use strict";
             var found = this.matcher(url);
-            var partyId = found[1];
-            var response = {};
-
-            _.forEach(this.data, function (list) {
-                var matchingItems = _.filter(list['todo-items'], function (item) {
-                    if (_.isEmpty(partyId)) {
-                        return _.isUndefined(item["responsible-party-id"]);
-                    } else {
-                        return item["responsible-party-id"] === +partyId;
-                    }
-                });
-
-                if (_.size(matchingItems) > 0) {
-                    response[list.id] = _.clone(list);
-                    response[list.id]['todo-items'] = matchingItems;
-                    response[list.id]['completed'] = _.all(list['todo-items'], function (item) { return item.completed; });
-                }
+            var projectId = found[1];
+            var response =  _.filter(this.data, function (list) {
+                return list['project-id'] === + projectId;
             });
 
             if(_.size(response) > 0) {
