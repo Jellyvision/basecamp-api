@@ -31,6 +31,9 @@ module.exports = function (client) {
             }
         });
     };
+    todoLists.getListsForProject = function(projectId, cb) {
+        cb(new Error("Not implemented"));
+    };
 
     return todoLists;
 };

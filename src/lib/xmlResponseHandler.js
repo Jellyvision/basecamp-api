@@ -1,20 +1,21 @@
 var xmlConverter = require('./xmlConverter');
+var winston = require('winston');
 
 module.exports = function (error, message, body, cb) {
     "use strict";
     if (error) {
-        console.error("[Error]: " + error);
+        winston.error("[Error]: " + error);
         return cb(error);
     }
     if(message.statusCode !== 200) {
-        console.warn("We got a " + message.statusCode + " response!");
+        winston.warn("We got a " + message.statusCode + " response!");
         return cb(new Error("HTTP Status: "+message.statusCode));
     }
 
     xmlConverter.convertXML(body, function (err, result) {
         if (err) {
-            console.log(body);
-            console.error("[Error]: " + err);
+            winston.error(body);
+            winston.error("[Error]: " + err);
             cb(err);
         } else {
             cb(null, result);

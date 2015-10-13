@@ -7,21 +7,22 @@ var api = basecamp.getAPI(APIClient);
 describe("todoLists", function () {
     "use strict";
     this.timeout(10000);
-    describe("#getToDoListsForUser", function() {
-        it.skip('should return all of the known todoLists for which a user is responsible', function (done) {
-            api.todoLists.getToDoListsForUser(33,function(err, todoLists) {
-                if(err) {
+    describe("#getToDoListsForUser", function () {
+        it('should return all of the known todoLists for which a user is responsible', function (done) {
+            api.todoLists.getToDoListsForUser(2, function (err, todoLists) {
+                if (err) {
                     return done(err);
                 }
+                console.log(todoLists);
                 expect(todoLists).to.be.ok;
                 expect(todoLists).not.to.be.empty;
 
                 done(err);
             });
         });
-        it.skip('should provide todoLists in a specific format', function (done) {
-            api.todoLists.getToDoListsForUser(function(err, todoLists) {
-                if(err) {
+        it('should provide todoLists in a specific format', function (done) {
+            api.todoLists.getToDoListsForUser(2, function (err, todoLists) {
+                if (err) {
                     return done(err);
                 }
 
@@ -29,10 +30,8 @@ describe("todoLists", function () {
 
                 var toDoList = todoLists[0];
                 expect(toDoList).to.be.ok;
-                expect(toDoList.id).to.exist;
-                expect(toDoList.name).to.exist;
-                expect(toDoList.completed).to.exist;
-                expect(toDoList.complete).to.exist;
+                expect(toDoList).to.have.property('id');
+                expect(toDoList).to.have.property('name');
 
                 done();
             });
@@ -41,8 +40,25 @@ describe("todoLists", function () {
 
     describe("#getToDoListsThatAreNotAssigned", function () {
 
+        it("returns all of the todo items that are not assigned to anyone", function (done) {
+            api.todoLists.getToDoListsThatAreNotAssigned(function (err, todoLists) {
+                if (err) {
+                    return done(err);
+                }
+                console.log(todoLists);
+
+                expect(todoLists).to.be.ok;
+                expect(todoLists).not.to.be.empty;
+
+                done(err);
+            });
+        });
     });
-    describe("#searchForList", function () {
+    describe("#getListsForProject", function () {
+        it("returns all lists associated with a project" , function (done) {
+            api.todoLists.getListsForProject()
+
+        });
 
     });
     describe("#getList", function () {

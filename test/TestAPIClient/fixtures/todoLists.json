@@ -1,12 +1,42 @@
 {
-  "0": {
-    "description": "",
-    "id": 0,
+  "1": {
+    "description": "The first sample list",
+    "id": 1,
     "milestone-id": 0,
-    "name": "",
+    "name": "List 1",
     "position": 0,
     "private": false,
-    "project-id": 0,
+    "project-id": 99999999,
+    "tracked": false
+  },
+  "2": {
+    "description": "The second sample list",
+    "id": 2,
+    "milestone-id": 0,
+    "name": "List 2",
+    "position": 0,
+    "private": false,
+    "project-id": 99999999,
+    "tracked": false
+  },
+  "3": {
+    "description": "The third sample list",
+    "id": 3,
+    "milestone-id": 0,
+    "name": "List 3",
+    "position": 0,
+    "private": false,
+    "project-id": 11413096,
+    "tracked": false
+  },
+  "4": {
+    "description": "The fourth sample list",
+    "id": 4,
+    "milestone-id": 0,
+    "name": "List 4",
+    "position": 0,
+    "private": false,
+    "project-id": 11413096,
     "tracked": false
   }
 }

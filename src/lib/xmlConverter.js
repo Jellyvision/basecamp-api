@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var parseString = require('xml2js').parseString;
+var winston = require('winston');
 
 var processElement;
 var convert = function (value, type) {
@@ -111,7 +112,7 @@ module.exports = {
         "use strict";
         parseString(xml, function (err, result) {
             if(err) {
-                console.error("[Error]: " + err);
+                winston.error("[Error]: " + err);
                 cb(err);
             } else {
                 try {

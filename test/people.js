@@ -36,13 +36,15 @@ describe("people", function () {
     });
     describe("#getPerson", function () {
         it('should return a single person when one is requested', function (done) {
-            api.people.getPerson("8675309", function(err, person) {
+            api.people.getPerson("1", function(err, person) {
                 if(err) {
                     console.error("[ERROR]: " + err);
+                    return done(err);
                 }
                 expect(person).to.be.ok;
                 expect(person).not.to.be.empty;
-                expect(person.id).to.equal(8675309);
+                expect(person.id).to.equal(1);
+                expect(person['user-name']).to.equal("Charlie Brown");
 
                 done(err);
             });
