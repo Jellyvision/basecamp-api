@@ -1,6 +1,6 @@
 {
   "name": "basecamp-api",
-  "version": "1.4.0",
+  "version": "1.5.1",
   "description": "Module providing access to the new Basecamp API",
   "main": "src/index.js",
   "scripts": {
